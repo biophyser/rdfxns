@@ -4,11 +4,10 @@ import os
 import fnmatch
 
 
-
 def ccp_tsv_in(f):
     """
     Description:  
-    Given a filepath, f, to a *.tsv peak list saved through ccpnmr 
+    Given a filepath, f, to a *.tsv peak list saved through ccpnmr, 
     imports the peak list and returns a pandas dataframe with columns by res 
     number and an index corresponding to features saved by ccpnmr and resnames.
     
@@ -19,33 +18,23 @@ def ccp_tsv_in(f):
     f:  The filepath, a string.
     """
     
-    # Read the raw file with pandas:
     df = pd.read_csv(f, sep='\t', usecols=[2,3,4,6,7,8,9], index_col=2)
-    # Empty lists to store names and numbers:
     resn = list()
     index = list()
-    # Pull out the name/number from the combo in the file:
     for i in df.index.values:
         name = re.findall(r'[A-Z][a-z]{2}', i)
         num = re.findall(r'\d+', i)
-        # Dealing with unassigned residues:
         try:
             resn.append(name[0])
             index.append(num[0])
         except:
-            # These are for non named residues:
             try:
                 resn.append("X")
                 index.append(num[0])
             except:
-                # For residues with no name or number:
                 index.append('0')
-    # Unexpectedly got 'None' values for assignments in ccpnmr
-    # Dealing with that here:
     resn = [x for x in resn if x != 'Non']
-    # Adding in the residue name to the dataframe:
     df['resn'] = pd.Series(resn, index=df.index)
-    # Replacing the original index with plain old numbers
     df.index = index
     df = df.drop_duplicates()
     df.index = df.index.astype(int)
