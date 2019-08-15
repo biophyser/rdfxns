@@ -218,32 +218,32 @@ def hsqc_zoom_subplot(res=None, ax=None, hsqc_imgs=None, h1_shift_df=None, n15_s
     if res == None:
         res = 152
     if ax == None:
-        fig, ax = plt.subplots(1, 1, figsize = (10, 7.5));
+        fig, ax = plt.subplots(1, 1, figsize = (10, 7.5))
     if hzoom == None or nzoom == None:
         hzoom, nzoom = 2.25, .75
     h = h1_shift_df[res]
     n = n15_shift_df[res]
     xmax, xmin, ymax, ymin, hmax, hmin, nmax, nmin, img_num, h_mean, n_mean = hsqc_coord_convert(h,n, hsqc_imgs,hzoom, nzoom)
-    ax.imshow(hsqc_imgs[img_num], zorder=0);
-    ax.plot(np.repeat(h_mean, 10), np.linspace(ymax, ymin, 10), '--', color='grey', lw=5, zorder=1);
-    ax.plot(np.linspace(xmin, xmax, 10), np.repeat(n_mean, 10), '--', color='grey', lw=5, zorder=1);
-    #ax1.scatter(h_mean, n_mean, color='grey', s=150);
+    ax.imshow(hsqc_imgs[img_num], zorder=0)
+    ax.plot(np.repeat(h_mean, 10), np.linspace(ymax, ymin, 10), '--', color='grey', lw=5, zorder=1)
+    ax.plot(np.linspace(xmin, xmax, 10), np.repeat(n_mean, 10), '--', color='grey', lw=5, zorder=1)
+    #ax1.scatter(h_mean, n_mean, color='grey', s=150)
     ax.add_patch( mpl.patches.Rectangle( (h_mean+(37.5), n_mean-(100)), 165, 75, 
                                          fill=False, ec='grey', lw=5) )
-    ax.set_xlim(xmin, xmax);
-    ax.set_ylim(ymax, ymin);
+    ax.set_xlim(xmin, xmax)
+    ax.set_ylim(ymax, ymin)
 
-    xticknum = len(ax.get_xticklabels());
-    yticknum = len(ax.get_yticklabels());
-    ax.set_xticklabels( np.around( np.linspace(hmin,hmax,xticknum), 1 ), fontsize = 20 );
-    ax.set_yticklabels( np.around( np.linspace(nmin,nmax,yticknum), 1 ), fontsize = 20 );
-    ax.set_xlabel('$^1$H ppm', fontsize=20);
-    ax.set_ylabel('$^{15}$N ppm', fontsize=20);
-    ax.text(.6,.2,"- 600 MHz",fontsize=20, backgroundcolor='white', transform=ax.transAxes);
-    ax.text(.6,.12,"- 800 MHz",fontsize=20, backgroundcolor='white', transform=ax.transAxes);
-    ax.text(.56,.2,"x",fontsize=36, backgroundcolor='white', transform=ax.transAxes);
-    ax.text(.56,.12,"o",fontsize=36, color='red', backgroundcolor='white', transform=ax.transAxes);
-    ax.set_title("Res. %i" %(res), fontsize = 20);
+    xticknum = len(ax.get_xticklabels())
+    yticknum = len(ax.get_yticklabels())
+    ax.set_xticklabels( np.around( np.linspace(hmin,hmax,xticknum), 1 ), fontsize = 20 )
+    ax.set_yticklabels( np.around( np.linspace(nmin,nmax,yticknum), 1 ), fontsize = 20 )
+    ax.set_xlabel('$^1$H ppm', fontsize=20)
+    ax.set_ylabel('$^{15}$N ppm', fontsize=20)
+    ax.text(.6,.2,"- 600 MHz",fontsize=20, backgroundcolor='white', transform=ax.transAxes)
+    ax.text(.6,.12,"- 800 MHz",fontsize=20, backgroundcolor='white', transform=ax.transAxes)
+    ax.text(.56,.2,"x",fontsize=36, backgroundcolor='white', transform=ax.transAxes)
+    ax.text(.56,.12,"o",fontsize=36, color='red', backgroundcolor='white', transform=ax.transAxes)
+    ax.set_title("Res. %i" %(res), fontsize = 20)
     plt.tight_layout()
     return
 
@@ -289,7 +289,7 @@ def read_relax_dir(directory):
     
     big_df = pd.concat( df_list, axis=0, keys=res_list, names=['Residue', 'Field', 'nu_cpmg'] ).sort_index()
     # Needed for quick retrieval when slicing
-    big_df.sortlevel(inplace=True)
+    #big_df.sortlevel(inplace=True)
     return big_df
 
 # Data Plotting Functions
@@ -313,7 +313,7 @@ def rd_curve_plot(df, res=None, field=None, ax=None, typ=None):
     alpha=1.
     
     if ax == None:
-        fig, ax = plt.subplots(1, 1, figsize = (10, 7.5));
+        fig, ax = plt.subplots(1, 1, figsize = (10, 7.5))
     if res == None:
         res = 152
     if field == None:
@@ -324,10 +324,10 @@ def rd_curve_plot(df, res=None, field=None, ax=None, typ=None):
         yerr = df.loc[res, fields[field]]['R2eff_error'].values
         col = colors[field]
         ax.errorbar(x, y, yerr=yerr, label=str(fields[field])+' Data', zorder=1, ms=10, 
-                   mfc=col, ecolor=col, alpha=alpha, fmt='o', mew=2, capsize=0);    
+                   mfc=col, ecolor=col, alpha=alpha, fmt='o', mew=2, capsize=0)    
     elif typ == 'Fit' or typ == 'fit':
-        x, y = df.loc[res, fields[field]].index, df.loc[res, fields[field]]['R2eff_calc']
-        ax.plot(x, y, label=str(fields[field])+' Fit', zorder=0, lw=5, c=colors[field+2]);
+        x, y = df.loc[res, fields[field]].index.values, df.loc[res, fields[field]]['R2eff_calc']
+        ax.plot(x, y, label=str(fields[field])+' Fit', zorder=0, lw=5, c=colors[field+2])
     return
 
 def rd_residuals_plot(df, res=None, field=None, ax=None):
@@ -346,14 +346,14 @@ def rd_residuals_plot(df, res=None, field=None, ax=None):
     colors = ['blue','red']
 
     if ax == None:
-        #fig, ax = plt.subplots(1, 1, figsize = (10, 7.5));
+        #fig, ax = plt.subplots(1, 1, figsize = (10, 7.5))
         ax = subplot2grid((1, 1), (0, 0))
     if res == None:
         res = 152
     if field == None:
         field = 0
 
-    x = df.loc[res, fields[field]].index
+    x = df.loc[res, fields[field]].index.values
     y_dat = df.loc[res, fields[field]]['R2eff_fit']
     y_fit = df.loc[res, fields[field]]['R2eff_calc']
     resid = y_dat - y_fit
@@ -378,8 +378,8 @@ def rd_agg_plot(df, res=None, ax1=None, ax2=None ):
         res = 152
 
     if ax1 == None or ax2 == None:
-        ax1 = plt.subplot2grid((4, 1), (0, 0), rowspan=3);
-        ax2 = plt.subplot2grid((4, 1), (3, 0), sharex=ax1);
+        ax1 = plt.subplot2grid((4, 1), (0, 0), rowspan=3)
+        ax2 = plt.subplot2grid((4, 1), (3, 0), sharex=ax1)
     
     xmax = 1300
     # First Axes: Data + Fit
@@ -387,17 +387,17 @@ def rd_agg_plot(df, res=None, ax1=None, ax2=None ):
     rd_curve_plot(df, res, typ='fit', ax=ax1, field=1)
     rd_curve_plot(df, res, typ='data', ax=ax1, field=0)
     rd_curve_plot(df, res, typ='fit', ax=ax1, field=0)
-    ax1.legend(framealpha = 1., loc=7);
+    ax1.legend(framealpha = 1., loc=7)
     ax1.set_ylabel(r"$R_{2,eff} (\frac{1}{s})$", fontsize=20)
     ax1.set_title("Residue %s, RD Curves" %(res), fontsize=20)
     
     # Second Axes: Residuals
     rd_residuals_plot(df, res, ax=ax2, field=0)
     rd_residuals_plot(df, res, ax=ax2, field=1)
-    ax2.set_xlabel(r"$\tau_{CPMG} (ms)$", fontsize=20);
+    ax2.set_xlabel(r"$CPMG Frequence (Hz)$", fontsize=20)
     ax2.text(1100, 0.0, 'Residuals', transform=ax2.transData, fontsize=12)
-    plt.xlim(-100, xmax);
-    plt.tight_layout();
+    plt.xlim(-100, xmax)
+    plt.tight_layout()
     return
 
 ################################################################################
@@ -471,7 +471,7 @@ def cr72_simulate(r20a=20,r20b=20,pA=.95,kex=500.,dw_h=.1,dw_n=1.):
     r20a_orig = r20a
     r20b_orig = r20b
     cpmg_frqs = np.linspace(20,1200,150)
-    fig, ax = plt.subplots(1, 1, figsize=(12,10))
+    fig, ax = plt.subplots(1, 1, figsize=(8,5))
     
     for n, field in enumerate(fields):
         # Convert dw values from ppm to rad/s for both 1H & 15N
@@ -486,8 +486,8 @@ def cr72_simulate(r20a=20,r20b=20,pA=.95,kex=500.,dw_h=.1,dw_n=1.):
         r2eff_CR72(r2int, r2int, r2int, r2int, pA, dw, dworig, k, cpmg_frqs, back_calc)
         ax.plot(cpmg_frqs, back_calc, lw=10, alpha=.75, color=colors[n])
     print('kex=%i, dw=%.2f' %(int(kex), dw_ppm))
-    plt.legend(labels);
-    plt.ylabel("R$_2$ s$^{-1}$");
+    plt.legend(labels)
+    plt.ylabel("R$_2$ s$^{-1}$")
     plt.xlabel("CPMG Frequency Hz")
     return
 
@@ -585,7 +585,7 @@ def cr72_manipulate(pA=None, r20a=None, r20b=None, kex=None, dw_h=None, dw_n=Non
              r20a=r2int, r20b=r2int, 
              kex=kex_slider, 
              dw_h=dw_h_slid, 
-             dw_n=dw_n_slid);
+             dw_n=dw_n_slid)
     return
 
 ################################################################################
@@ -633,11 +633,11 @@ def kex_pa_plot(df, res=None, ax1=None, ax2=None, ax3=None, hist=True):
     colors = ['blue','red']
 
     if ax1 == None:
-        #fig, ax = plt.subplots(1, 1, figsize = (10, 7.5));
-        ax1 = plt.subplot2grid((4, 4), (0, 0), rowspan=3, colspan=3);
-        ax2 = plt.subplot2grid((4, 4), (3, 0), colspan=3);
-        ax3 = plt.subplot2grid((4, 4), (0, 3), rowspan=3);
-        #plt.figure(figsize=(10, 7.5));
+        #fig, ax = plt.subplots(1, 1, figsize = (10, 7.5))
+        ax1 = plt.subplot2grid((4, 4), (0, 0), rowspan=3, colspan=3)
+        ax2 = plt.subplot2grid((4, 4), (3, 0), colspan=3)
+        ax3 = plt.subplot2grid((4, 4), (0, 3), rowspan=3)
+        #plt.figure(figsize=(10, 7.5))
     if res == None:
         res = 152
 
@@ -650,26 +650,26 @@ def kex_pa_plot(df, res=None, ax1=None, ax2=None, ax3=None, hist=True):
     b = df.loc[res,'pA_value':'pA_error']
     # Plotting all data
     ax1.errorbar(x, y, xerr=xerr, yerr=yerr, fmt='o', alpha=0.1, elinewidth=3, 
-                capsize=0, zorder=0, ms=5, mfc='blue', mec='blue', ecolor='blue');
+                capsize=0, zorder=0, ms=5, mfc='blue', mec='blue', ecolor='blue')
     # Highlighting residue in question
     ax1.errorbar(a[0], b[0], xerr=a[1], yerr=b[1], fmt='o', ms=10, mfc='red', mew=0, 
-                elinewidth=10, ecolor='red');
-    ax1.set_ylabel(r"Major Population", fontsize=20);
-    ax1.set_title(r"Res: %s, $k_{ex} vs. P_A$" %( res), fontsize=20);
+                elinewidth=10, ecolor='red')
+    ax1.set_ylabel(r"Major Population", fontsize=20)
+    ax1.set_title(r"Res: %s, $k_{ex} vs. P_A$" %( res), fontsize=20)
     ymin, ymax = .45, 1.05
-    ax1.set_ylim(ymin, ymax);
+    ax1.set_ylim(ymin, ymax)
 
     if -50. < a[0] < 1500.:
         xmin, xmax = -50, 1500
-        ax1.set_xlim(xmin, xmax);
+        ax1.set_xlim(xmin, xmax)
         marker = [a[0], b[0]]
     elif np.isnan(a[0]) or np.isnan(b[0]):
         xmin, xmax = -50, 1500
-        ax1.set_xlim(xmin, xmax);
+        ax1.set_xlim(xmin, xmax)
         marker = [600, .6]
     else:
         xmin, xmax = -50, np.round(a[0] + 300, 0)
-        ax1.set_xlim(xmin, xmax);
+        ax1.set_xlim(xmin, xmax)
         marker = [a[0], b[0]]
     if hist == True:
         bins=15
@@ -677,9 +677,9 @@ def kex_pa_plot(df, res=None, ax1=None, ax2=None, ax3=None, hist=True):
         ax2.set_xlim(xmin, xmax)
         ax3.hist(y, bins=bins, range=(.5, 1), orientation='horizontal')
         ax3.set_ylim(ymin, ymax)
-        ax2.set_xlabel(r"$k_{ex} (\frac{1}{s})$", fontsize=20);
+        ax2.set_xlabel(r"$k_{ex} (\frac{1}{s})$", fontsize=20)
     else:
-        ax.set_xlabel(r"$k_{ex} (\frac{1}{s})$", fontsize=20);
+        ax.set_xlabel(r"$k_{ex} (\frac{1}{s})$", fontsize=20)
     
     dw = df.loc[res,'dw_value':'dw_error']
     chi = df.loc[res, 'chi2_value']
@@ -756,7 +756,7 @@ def save_figs(path, df, seq):
 
     
     for i, col in enumerate(cols):
-        plot_figures(df[col], nrows=2, ncols=2);
+        plot_figures(df[col], nrows=2, ncols=2)
         plt.title('%s%s' %(col, seq[i]), fontsize=20)
         plt.savefig(os.path.join(path, '%s.png' %(col)), 
                     type='png', dpi=200)

@@ -1,6 +1,6 @@
 import sys
-sys.path.append('/usr/local/relax-4.0.2/lib')
-sys.path.append('/usr/local/relax-4.0.2')
+sys.path.append('/Users/jaa/Documents/Computing/relax/lib')
+sys.path.append('/Users/jaa/Documents/Computing/relax')
 import relax
 import nmr
 from dispersion.cr72 import r2eff_CR72
@@ -9,7 +9,7 @@ import ipywidgets as widgets
 import matplotlib.pyplot as plt
 import numpy as np
 
-def cr72_simulate(r20a=20,r20b=20,pA=.95,kex=500.,dw_h=.1,dw_n=1.):
+def cr72_simulate(r20a=20,r20b=20,pA=.9,kex=200.,dw_h=.1,dw_n=1.):
     """
     DESCRIPTION:
     Function that uses the `relax` NMR RD modules to calculate the RD curve
@@ -59,7 +59,7 @@ def cr72_simulate(r20a=20,r20b=20,pA=.95,kex=500.,dw_h=.1,dw_n=1.):
     r20a_orig = r20a
     r20b_orig = r20b
     cpmg_frqs = np.linspace(20,1200,150)
-    fig, ax = plt.subplots(1, 1, figsize=(12,10))
+    fig, ax = plt.subplots(1, 1, figsize=(10,8))
     
     for n, field in enumerate(fields):
         # Convert dw values from ppm to rad/s for both 1H & 15N
@@ -74,7 +74,8 @@ def cr72_simulate(r20a=20,r20b=20,pA=.95,kex=500.,dw_h=.1,dw_n=1.):
         r2eff_CR72(r2int, r2int, r2int, r2int, pA, dw, dworig, k, cpmg_frqs, back_calc)
         ax.plot(cpmg_frqs, back_calc, lw=10, alpha=.75, color=colors[n])
     print('kex=%i, dw=%.2f' %(int(kex), dw_ppm))
-    plt.legend(labels);
-    plt.ylabel("R$_2$ s$^{-1}$");
-    plt.xlabel("CPMG Frequency Hz")
+    plt.legend(labels)
+    plt.ylim(18)
+    plt.ylabel("R$_2$ s$^{-1}$", fontsize=16)
+    plt.xlabel("CPMG Frequency Hz", fontsize=16)
     return

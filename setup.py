@@ -18,7 +18,7 @@ setup(
     keywords = "NMR CPMG Protein Conformation Relaxation",
     url = "",
     packages=['nmrplt', 'nmrio'],
-    long_description=read('README'),
+    long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Utilities",

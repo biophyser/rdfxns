@@ -1,13 +1,14 @@
-import sys
-sys.path.append('/usr/local/relax-4.0.2/lib')
-sys.path.append('/usr/local/relax-4.0.2')
-import relax
-import nmr
-from dispersion.cr72 import r2eff_CR72
+#import sys
+#sys.path.append('/Users/jaa/Documents/Computing/relax/lib')
+#sys.path.append('/Users/jaa/Documents/Computing/relax')
+#import relax
+#import nmr
+#from relax.lib.dispersion.cr72 import r2eff_CR72
 from ipywidgets import interact, interactive, fixed
 import ipywidgets as widgets
 import matplotlib.pyplot as plt
-import numpy as np
+#import numpy as np
+from . import cr72_simulate
 
 def cr72_manipulate(pA=None, r20a=None, r20b=None, kex=None, dw_h=None, dw_n=None, num=None):
     """
@@ -61,7 +62,7 @@ def cr72_manipulate(pA=None, r20a=None, r20b=None, kex=None, dw_h=None, dw_n=Non
     
     # Setting kex
     if kex == None:
-        lower, upper, step, val = 100., 600., (600.-100.)/num, 500.
+        lower, upper, step, val = 10., 600., (600.-10.)/num, 500.
         kex_slider = widgets.FloatSlider(min=lower, max=upper, step=step, value=val)
     else:
         lower, upper = .1 * kex, 1.5 * kex
@@ -91,5 +92,4 @@ def cr72_manipulate(pA=None, r20a=None, r20b=None, kex=None, dw_h=None, dw_n=Non
              r20a=r2int, r20b=r2int, 
              kex=kex_slider, 
              dw_h=dw_h_slid, 
-             dw_n=dw_n_slid);
-    return
+             dw_n=dw_n_slid)

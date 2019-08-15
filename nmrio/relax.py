@@ -20,7 +20,7 @@ def relax_dir(directory):
     
     big_df = pd.concat( df_list, axis=0, keys=res_list, names=['Residue', 'Field', 'nu_cpmg'] ).sort_index()
     # Needed for quick retrieval when slicing
-    big_df.sortlevel(inplace=True)
+    #big_df.sortlevel(inplace=True)
     return big_df
 
 
